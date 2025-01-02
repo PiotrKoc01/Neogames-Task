@@ -1,0 +1,15 @@
+{
+  "name": "neogames_task",
+  "version": "1.0.0",
+  "description": "Node.js for Neogames task",
+  "license": "MIT",
+  "author": "Piotr Koczur",
+  "type": "module",
+  "scripts": {
+    "start": "node server",
+    "dev": "node --watch server"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

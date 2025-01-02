@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/main_style.css">
+    <link rel="stylesheet" href="/static/css/box_animation.css">
+</head>
+<body>
+    <h1>Neogames Game Task - Piotr Koczur</h1>
+    <div id="info">
+        <p>Phone number: 796422154<br>Data: 2.1.2025</p>
+    </div>
+    <div id="bonus_screen">
+        <h2>BONUS</h2>
+        <div id="bonus_points_div"></div>
+         <canvas id="canvas2"></canvas>
+    </div>
+    <div class="game" id="main_game_div">
+        <h2>Chests Game</h2>
+        <div id="game_focus">
+            <div class="img_box" id="img_box">
+                <div class = whole_game_div id="no-click"></div>
+                    <div id="canvas_div">
+                        <canvas id="canvas"></canvas>
+                        <div id="typing"></div>
+                    </div>
+                    <img class="chest" id="1" src="static/images/box1.png">
+                    <img class="chest" id="2" src="static/images/box1.png">
+                    <img class="chest" id="3" src="static/images/box1.png">
+                    <img class="chest" id="4" src="static/images/box1.png">
+                    <img class="chest" id="5" src="static/images/box1.png">
+                    <img class="chest" id="6" src="static/images/box1.png">
+            </div>
+
+        </div>
+
+    </div>
+    <div class="game">
+            <br><button id="play">PLAY!</button>
+    </div>
+</body>
+<script type="module" src="static/js/game.js"></script>
+</html>
