@@ -7,7 +7,7 @@
 
 Clone the repository:
 
-<git clone https://github.com/PiotrKoc01/Neogames-Task>
+< git clone https://github.com/PiotrKoc01/Neogames-Task >
 
 In the terminal, type:
 
