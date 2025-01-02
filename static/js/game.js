@@ -76,7 +76,7 @@ document.querySelectorAll('.chest').forEach(function (chest) {
                 chest.src = 'static/images/box2.png'
                 chest.style.backgroundColor = 'rgba(84,255,132,0.62)'
             } else if (result === 'win_bonus'){
-                chest.src = 'static/images/box2.png'
+                chest.src = 'static/images/box4.png'
                 chest.style.backgroundColor = 'rgba(255,60,252,0.53)'
             }
             all_boxes.forEach(function (chest) {
