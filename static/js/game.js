@@ -222,6 +222,10 @@ const show_animation = (result) => {
                             bonus_points_for_animation -= 9
                             frameX = 0;
                             frameY = 4
+                        } else if (frameX === 9 && frameY === 4){ //in case of highest amount
+                            frameX = 0;
+                            frameY = 5;
+                            bonus_points_for_animation -= 9
                         }
                     } else{
                         console.log(bonus_points_for_animation_save, "BN")
