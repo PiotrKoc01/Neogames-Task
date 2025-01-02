@@ -3,7 +3,7 @@
 ## Repository contains a game where players choose boxes, and the program randomly decides between a bonus, a regular win, or a loss. The bonus is displayed on a separate screen and also includes a random element.
 
 
-##How to Run?
+## How to Run?
 
 Clone the repository:
 
