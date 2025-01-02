@@ -3,24 +3,39 @@ const play_btn = document.getElementById('play'),
     no_click = document.getElementById('no-click'),
     canvas_div = document.getElementById('canvas_div')
 
-
-// clicking button makes posibility to click boxes
+const all_boxes = document.querySelectorAll('.chest')
+// after clicing button play user can click all the boxes
 play_btn.addEventListener('click', function (){
     no_click.style.display = 'none';
     play_btn.disabled = true;
-
-
+   all_boxes.forEach(function (chest){
+        chest.style.backgroundColor = 'transparent';
+        chest.style.pointerEvents = 'auto';
+        chest.src = 'static/images/box1.png'
+    })
 })
 
-
+//text after win/lose/win with bonus
 const typingElement = document.getElementById("typing");
 
-let index = 0;
+let index = 0; //for typing win/lose/bonus
 let bonus = false; //there will be bonus animation when it is true. In case that user will write 'bonus= true' to the console the main mechanic is still in Engine.js so nobady will cheat
+if (sessionStorage.getItem('open_boxes') === null) {
+    sessionStorage.setItem('open_boxes', 0);
+}//wanted to be sure nothing happends to this variable. This is for possibility to play again.
+
+
 //happend after clicking on box
 document.querySelectorAll('.chest').forEach(function (chest) {
     chest.addEventListener('click', function () {
 
+        let open_boxes = sessionStorage.getItem('open_boxes');
+        open_boxes++;
+        sessionStorage.setItem('open_boxes', open_boxes)
+        if (open_boxes === 6){
+            sessionStorage.setItem('open_boxes', 0)
+            setTimeout(function () {play_btn.disabled = false;}, 4000);
+        }
         //result
         const result_from_engine = gambling_result_func();
         const result = result_from_engine[0];
@@ -31,7 +46,7 @@ document.querySelectorAll('.chest').forEach(function (chest) {
 
         //show_animation_func
         show_animation(result)
-        const all_boxes = document.querySelectorAll('.chest')
+
          all_boxes.forEach(function (chest) {
             chest.style.visibility = 'hidden'
         });
@@ -40,11 +55,11 @@ document.querySelectorAll('.chest').forEach(function (chest) {
         if (index < text.length) {
             typingElement.textContent += text.charAt(index);
             index++;
-            if (result==='loss'){typingElement.style.color= 'black'}
+            if (result==='loss'){typingElement.style.color= '#bdb402'}
             else if (result==='win'){typingElement.style.color= '#5DFF0B'}
             else {typingElement.style.color= '#ef11ff'}
             setTimeout(typeText, 110);
-            } else {setTimeout(erase_text, 2000);}
+            } else {setTimeout(erase_text, 1000);}
 
         }
 
@@ -78,14 +93,23 @@ document.querySelectorAll('.chest').forEach(function (chest) {
 
 
 //Bonus Div activation
-let bonus_points_for_animation = 0;
+let bonus_points_for_animation = 0,
+    bonus_points_for_animation_save = 0 //because of the animation
+const bonus_div = document.getElementById('bonus_screen');
 const activateBonus = () =>{
-    const bonus_div = document.getElementById('bonus_screen');
+
     bonus_div.style.display = 'block';
     bonus = true;
     const bonus_points = bonus_func()
 
+
     bonus_points_for_animation = bonus_points
+    bonus_points_for_animation_save = bonus_points;
+    //this what is below is becaouse splash on the thermometer, it doesn't effect on result and it increases emotions
+    const bonus_points_animation_cant_stop = [2,3,6,7,10,11,15]
+    if (bonus_points_animation_cant_stop.includes(bonus_points_for_animation)){
+        bonus_points_for_animation += 2;
+    }
     show_animation()
 }
 
@@ -94,6 +118,9 @@ let canvas = document.getElementById('canvas');
 const canvas2 = document.getElementById('canvas2');
 const change_canvas = () => {
     canvas = canvas2
+}
+const default_canvas_setting = () => {
+    canvas = document.getElementById('canvas');
 }
 // Animation before clicking at boxes
 const show_animation = (result) => {
@@ -104,19 +131,20 @@ const show_animation = (result) => {
         CANVAS_WIDTH = canvas.width = 550,
         CANVAS_HEIGHT = canvas.height = 600,
         spriteWidth = 555.5,
-        spriteHeight = 553,
-        animation_img = new Image();
+        spriteHeight = 553;
+        const animation_img = new Image();
+        animation_img.src = 'static/images/animation.webp';
 
-    animation_img.src = 'static/images/animation_all.png';
 
     let frameX = 0,
         frameY = 0;
     let game_frame = 0 //speed control
     let stop = false,
         pause_score = 0,
-        wait = 0;
+        wait = 0,
+        win_in_coins = 0;
     const totalFrames = 9 ;
-    let r = 128, g = 0, b = 128, a = 1;
+    let r = 65, g = 105, b = 225, a = 1;  //bonus bg
 
     const animate = () => {
         ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
@@ -151,6 +179,10 @@ const show_animation = (result) => {
             }
 
         //in case this is bonus
+        if (result==='win_bonus'){
+            frameY = 2
+        }
+
         if (bonus=== true && frameX===9){
             frameY++;
         }
@@ -174,14 +206,16 @@ const show_animation = (result) => {
             //     bonus is on
             } else if (bonus === true){
                 if (game_frame % 8 === 0){
+                    //as bonus growing background more pink like bonus color, but not more than 255, becaouse of err
 
                     if (frameX<= bonus_points_for_animation){
-                    r = Math.min(r + 1, 255);
-                    g = Math.min(g + 1, 255);
-                    b = Math.min(b + 1, 255);
+
+                        r = Math.min(r + 4, 255);
+                        g = Math.min(g - 2, 255);
+                        b = Math.min(b - 3, 255);
 
                 // background color changes
-                    document.getElementById('bonus_screen').style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+                        document.getElementById('bonus_screen').style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
                         frameX++
 
                         if (frameX === 9 && frameY === 3){
@@ -189,6 +223,27 @@ const show_animation = (result) => {
                             frameX = 0;
                             frameY = 4
                         }
+                    } else{
+                        console.log(bonus_points_for_animation_save, "BN")
+                        if (bonus_points_for_animation_save<2){
+                            win_in_coins = "No Bonus"
+                        }
+                        else if (bonus_points_for_animation_save<6){
+                            win_in_coins = 500
+                        } else if (bonus_points_for_animation_save<10){
+                            win_in_coins = 1000
+                        } else if (bonus_points_for_animation_save< 15){
+                            win_in_coins = 1500
+                        } else {win_in_coins= 2000}
+                        stop= true;
+                        default_canvas_setting()
+                        document.getElementById("win_amount_h2").innerText = `${win_in_coins}`
+                        setTimeout(function (){
+                            bonus = false;
+                            bonus_div.style.backgroundColor = '#3556bd'
+                            bonus_div.style.display= 'none'
+                            document.getElementById("win_amount_h2").innerText = ""
+                        }, 3000)
                     }
                 }
             }

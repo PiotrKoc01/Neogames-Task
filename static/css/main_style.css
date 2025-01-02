@@ -1,5 +1,5 @@
 body {
-    background-color: #183cab;
+    background-color: #004aac;
     font-family: Arial, sans-serif;
     color: white;
     background-image: url('https://i.ibb.co/WDh3pnW/bonus-2.png');
@@ -29,9 +29,9 @@ h1 {
     }
 }
 #main_game_div h2 {
+    transform: translate(-5%, 0);
         color: gold;
         text-align: center;
-        transform: translate(-5%, 0);
 }
 .img_box{
     margin-left: 15%;
@@ -59,6 +59,15 @@ h1 {
 @media (max-width: 1068px) {
     .img_box {
         grid-template-columns: repeat(auto-fill, minmax(10vh, 1fr)); /* smoler devices */
+    }
+    #main_game_div h2{
+        font-size: 3vh;
+    }
+    #info{
+        font-size: 2vh;
+    }
+    h1{
+        font-size: 4vh;
     }
 }
 
@@ -142,7 +151,7 @@ h1 {
     white-space: nowrap;
     display: inline-block;
     left: 50%;
-    transform: translate(-50%, -600%);
+    transform: translate(-50%, 800%);
     font-weight: bold;
 }
 
@@ -151,11 +160,11 @@ h1 {
 
 #bonus_screen{
     display: none;
-    position: absolute;
-    background-color: purple;
+    position: fixed;
+    background-color: #3556bd;
     text-align: center;
-    width: 102%;
-    height: 102%;
+    width: 100%;
+    height: 100%;
     z-index: 300;
     top: -1px;
     left: -1px;
@@ -164,6 +173,13 @@ h1 {
     color: gold;
     font-size: 5vh;
 }
+#bonus_screen img{
+    position: absolute;
+    top: 50%;
+    left: 1%;
+    transform: translate(0, -50%);
+    width: 50vmax;
+}
 #canvas2 {
     position: absolute;
     left: 50%;
@@ -171,4 +187,26 @@ h1 {
     transform: translate(-50%, -50%);
     width: 30vmax;
     height: auto;
+}
+@media (max-width: 1008px) {
+    #bonus_screen img {
+        width: 80vmax;
+        left: 5%;
+        top: 20%;
+    }
+    #canvas2 {
+       width: 50vmax
+    }
+    #typing{
+        font-size: 3vh;
+    }
+}
+
+#win_amount{
+    position: absolute;
+    bottom: 5%;
+    font-size: 1%;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: red;
 }
